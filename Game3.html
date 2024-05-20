@@ -1,6 +1,506 @@
-<!doctypehtml><html lang=en><meta charset=UTF-8><meta content="width=device-width,initial-scale=1"name=viewport><title>Krungsri Game</title><style>@font-face{font-family:Krungsri;src:url(assets/fonts/Krungsri-Con-Reg.otf) format('opentype');font-weight:400}@font-face{font-family:Krungsri;src:url(assets/fonts/Krungsri-Con-Med.otf) format('opentype');font-weight:500}@font-face{font-family:Krungsri;src:url(assets/fonts/Krungsri-Con-Bol.otf) format('opentype');font-weight:700}body{font-family:Krungsri,Arial,sans-serif;text-align:center;margin:0;padding:0;overflow:hidden}h1{color:#000}.page{display:none!important;width:100vw;height:100vh;display:flex;justify-content:center;align-items:center;text-align:center;color:#fff}.page.active{display:flex!important}#page1{font-family:Arial,sans-serif;text-align:center;margin:0;padding:0;background-image:url(assets/bg_03.png);background-size:cover;background-repeat:no-repeat;background-position:inherit;min-height:100vh}#page3{background-image:url(assets/G3BG3-03.png);background-size:cover;background-repeat:no-repeat;background-position:inherit}#game-board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;justify-items:center}.flag{width:75%;cursor:pointer;display:block}.d-item.correct{visibility:hidden}.d-item.incorrect{visibility:visible}.modal{display:flex;justify-content:center;align-items:center;position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.8);z-index:1000}.modal-content{background-color:#ffd400;width:150px;border-radius:50%;height:150px;display:flex;align-items:center;justify-content:center}#countdownNumber{font-size:3em;font-weight:700}#countdownTimeout{font-size:2em;font-weight:700}.styled-box{background-color:#857c75;border-radius:20px;padding:40px;text-align:center;width:60%;max-width:500px}.main-text{font-family:Krungsri,sans-serif;font-weight:700;font-size:2.3em;color:gold;margin-bottom:20px}.number-text{font-family:Krungsri,sans-serif;font-size:3em;color:gold}.countdown{font-size:24px;margin:20px 0}.summary{display:none;font-size:18px;margin:20px 0}.container_score{text-align:center}.container_score .score-text{font-weight:700;font-family:Krungsri,sans-serif;font-size:3em;color:#5a3d2b}.banner{font-family:Krungsri,sans-serif;font-size:2.5em;background-color:#ffc107;color:#000;padding:1em 2em 1em 2em;text-align:center;line-height:1.4em}.grid-container{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,auto);gap:10px;padding:0;margin-top:13em}.grid-item{padding:0;text-align:center;font-size:16px}.modal-failed{display:flex;justify-content:center;align-items:center;position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgb(210 210 210 / 43%);z-index:1000}.modal-content-failed{background-color:#f8f8f8;width:20em;border-radius:50%;height:20em;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 8px 0 rgba(0,0,0,.2)}.failed_txt{font-family:Krungsri,sans-serif;font-size:14em;color:#f22c3d;padding:1em 1em 1.2em 1em;text-align:center;line-height:10.4em}.circle{background-image:url(assets/bg_score.png);background-size:cover;background-repeat:no-repeat;background-position:inherit;width:32em;height:32em;justify-content:center;align-items:center;display:flex}.circle .number{font-size:96px;color:#000;font-family:Krungsri,sans-serif}</style><div class=modal id=countdownModal style=display:none><div class=modal-content><span id=countdownNumber>3</span></div></div><div class=modal id=countdownFinal style=display:none><div class=modal-content><span id=countdownTimeout>Timeout</span></div></div><div class=modal-failed id=modal_failed style=display:none><div class=modal-content-failed><span id=span_failed class=failed_txt>x</span></div></div><div class="page active"id=page1><div style=top:15%;width:100%;display:flow;position:absolute><img src=assets/G3page1-1.png style=top:10%;width:55%;vertical-align:middle></div><img src=assets/G3Start_Button.png id=toPage2 style=cursor:pointer;top:20%;right:5%;position:fixed;width:15em></div><div class=page id=page2><div class=banner id=topic_match style=top:2%;width:80%;display:flow;position:absolute></div><div class=grid-container><div class=grid-item><img src=assets/1.png id=img1 style=cursor:pointer class=d-item onclick='checkAnswer("1")'></div><div class=grid-item><img src=assets/2.png id=img2 style=cursor:pointer class=d-item onclick='checkAnswer("2")'></div><div class=grid-item><img src=assets/3.png id=img3 style=cursor:pointer class=d-item onclick='checkAnswer("3")'></div><div class=grid-item><img src=assets/4.png id=img4 style=cursor:pointer class=d-item onclick='checkAnswer("4")'></div><div class=grid-item><img src=assets/5.png id=img5 style=cursor:pointer class=d-item onclick='checkAnswer("5")'></div><div class=grid-item><img src=assets/6.png id=img6 style=cursor:pointer class=d-item onclick='checkAnswer("6")'></div><div class=grid-item><img src=assets/7.png id=img7 style=cursor:pointer class=d-item onclick='checkAnswer("7")'></div><div class=grid-item><img src=assets/8.png id=img8 style=cursor:pointer class=d-item onclick='checkAnswer("8")'></div><div class=grid-item><img src=assets/9.png id=img9 style=cursor:pointer class=d-item onclick='checkAnswer("9")'></div><div class=grid-item><img src=assets/10.png id=img10 style=cursor:pointer class=d-item onclick='checkAnswer("10")'></div><div class=grid-item><img src=assets/11.png id=img11 style=cursor:pointer class=d-item onclick='checkAnswer("11")'></div><div class=grid-item><img src=assets/12.png id=img12 style=cursor:pointer class=d-item onclick='checkAnswer("12")'></div><div class=grid-item><img src=assets/13.png id=img13 style=cursor:pointer class=d-item onclick='checkAnswer("13")'></div><div class=grid-item><img src=assets/14.png id=img14 style=cursor:pointer class=d-item onclick='checkAnswer("14")'></div><div class=grid-item><img src=assets/15.png id=img15 style=cursor:pointer class=d-item onclick='checkAnswer("15")'></div><div class=grid-item><img src=assets/16.png id=img16 style=cursor:pointer class=d-item onclick='checkAnswer("16")'></div><div class=grid-item><img src=assets/17.png id=img17 style=cursor:pointer class=d-item onclick='checkAnswer("17")'></div><div class=grid-item><img src=assets/18.png id=img18 class=d-item></div></div><span id=time style=color:#fff></span> <span id=timeToPage3></span></div><div class=page id=page3><div class=container_score><div class=score-text>คุณตอบถูก</div><div class=circle><div class=number id=score>0</div></div></div><img src=assets/G3_03Back_Button.png id=backToPage1 style=cursor:pointer;bottom:10%;right:5%;position:fixed;width:15em></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krungsri Game</title> 
+</head>
+<style type="text/css">
+  
+    @font-face {
+    font-family: 'Krungsri';
+    src: url('assets/fonts/Krungsri-Con-Reg.otf') format('opentype');
+    font-weight: normal;
+    }
+
+    @font-face {
+    font-family: 'Krungsri';
+    src: url('assets/fonts/Krungsri-Con-Med.otf') format('opentype');
+    font-weight: 500;
+    }
+
+    @font-face {
+    font-family: 'Krungsri';
+    src: url('assets/fonts/Krungsri-Con-Bol.otf') format('opentype');
+    font-weight: bold;
+    } 
+
+    body {
+    font-family: 'Krungsri', Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    }
+
+    h1 { 
+    color:#000000;
+    }
+
+    .page {
+        display: none !important;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+    }
+
+    .page.active {
+    display: flex  !important;
+    }
+
+    #page1 {
+
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        background-image: url(assets/bg_03.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: inherit;
+        min-height: 100vh;
+
+       
+    }
+
+    #page2 { 
+    }
+
+    #page3 {
+        background-image: url('assets/G3BG3-03.png'); /* Replace with your image URL */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: inherit;
+    }
+
+
+
+    #game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-items: center; 
+    }
+
+    .flag {
+    width: 75%; 
+    cursor: pointer; 
+    display: block;
+    }
+
+    .d-item.correct {
+        visibility: hidden;
+    }
+
+    .d-item.incorrect {
+        visibility: visible;
+    }
+
+    .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    z-index: 1000;
+    }
+
+    .modal-content {
+    background-color: #ffd400;
+    width: 150px;
+    border-radius: 50%; 
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+    #countdownNumber {
+    font-size: 3em;
+    font-weight: bold;
+    }
+    #countdownTimeout {
+    font-size: 2em;
+    font-weight: bold;
+    }
+
+    .styled-box {
+    background-color: #857c75; /* Background color from the image */
+    border-radius: 20px; /* Rounded corners */
+    padding: 40px; /* Adjust padding as needed */
+    text-align: center; 
+    width: 60%; /* Adjust width as needed */
+    max-width: 500px;
+    }
+
+    .main-text {
+    font-family: 'Krungsri', sans-serif;
+    font-weight: bold;
+    font-size: 2.3em; /* Adjust the font size as needed */
+    color: #FFD700; /* Yellow text color */
+    margin-bottom: 20px; /* Space between the main text and the number */
+    }
+
+    .number-text {
+    font-family: 'Krungsri', sans-serif;
+    font-size: 3em; /* Adjust the font size as needed */
+    color: #FFD700; /* Yellow text color */
+    }
+
+   
+    .countdown {
+        font-size: 24px;
+        margin: 20px 0;
+    }
+    .summary {
+        display: none;
+        font-size: 18px;
+        margin: 20px 0;
+    }
+
+   .container_score {
+        text-align: center;
+    }
+    .container_score .score-text { 
+        font-weight: bold; 
+        font-family: 'Krungsri', sans-serif;
+        font-size: 3em;
+        color: #5A3D2B; 
+    }
+ 
+
+    .banner {
+        font-family: 'Krungsri', sans-serif;
+        font-size: 2.0em;
+        background-color: #FFC107;
+        color: #000;
+        padding: 0.5em 2em 0.5em 2em;
+        text-align: center;
+        line-height: 1.4em;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(6, auto);
+        gap: 10px;
+        padding: 0px;
+        margin-top: 9em;
+    }
+
+    .grid-item { 
+        padding: 0px;
+        text-align: center;
+        font-size: 16px; 
+    }
+
+    .grid-item img {
+        width: 12em;
+    }
+ 
+    .modal-failed {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(210 210 210 / 43%);
+        z-index: 1000;
+    }
+
+   .modal-content-failed {
+        background-color: #f8f8f8;
+        width: 20em;
+        border-radius: 50%;
+        height: 20em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    .failed_txt {
+        font-family: 'Krungsri', sans-serif;
+        font-size: 14em;
+        color: #f22c3d;
+        padding: 1em 1em 1.2em 1em;
+        text-align: center;
+        line-height: 10.4em;
+    }
+
+     .circle {
+        background-image: url('assets/bg_score.png'); /* Replace with your image URL */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: inherit;
+        width: 32em;
+        height: 32em;
+        justify-content: center;
+         align-items: center;
+        display: flex;
+
+    }
+
+    .circle .number {
+        font-size: 96px;
+        color: black;
+        font-family: 'Krungsri', sans-serif;
+    }
+ 
+</style>
+<body> 
+    <div id="countdownModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span id="countdownNumber">3</span>
+        </div>
+    </div>
+    <div id="countdownFinal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span id="countdownTimeout">Timeout</span>
+        </div>
+    </div>
+ 
+     <div id="modal_failed" class="modal-failed" style="display: none;">
+        <div class="modal-content-failed">
+            <span id="span_failed" class="failed_txt">x</span>
+        </div>
+    </div>
+
+    <div id="page1" class="page active">   
+        <div style="top: 15%;width: 100%;display: flow;position: absolute;">
+            <img src="assets/G3page1-1.png" style="top: 10%;width: 50%;vertical-align: middle;" />
+        </div> 
+        <img id="toPage2" src="assets/G3Start_Button.png" style="cursor:pointer;top: 20%;right: 12%;position: fixed;width: 13em;" /> 
+    </div>
+
+    <div id="page2" class="page  "> 
+         
+        <div class="banner" style="top: 2%;width: 80%;display: flow;position: absolute;" id="topic_match"> 
+        </div>
+
+        <div class="grid-container">
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('1');" class="d-item" id="img1" src="assets/1.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('2');" class="d-item" id="img2" src="assets/2.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('3');" class="d-item" id="img3" src="assets/3.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('4');" class="d-item" id="img4" src="assets/4.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('5');" class="d-item" id="img5" src="assets/5.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('6');" class="d-item" id="img6" src="assets/6.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('7');" class="d-item" id="img7" src="assets/7.png"/></div>
+
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('8');" class="d-item" id="img8" src="assets/8.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('9');" class="d-item" id="img9" src="assets/9.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('10');" class="d-item" id="img10" src="assets/10.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('11');" class="d-item" id="img11" src="assets/11.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('12');" class="d-item" id="img12" src="assets/12.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('13');" class="d-item" id="img13" src="assets/13.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('14');" class="d-item" id="img14" src="assets/14.png"/></div>
+
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('15');" class="d-item" id="img15" src="assets/15.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('16');" class="d-item" id="img16" src="assets/16.png"/></div>
+            <div class="grid-item"><img style="cursor:pointer;" onclick="checkAnswer('17');" class="d-item" id="img17" src="assets/17.png"/></div>
+            <div class="grid-item"><img  class="d-item" id="img18" src="assets/18.png"/></div> 
+        </div>    
+        
+        <span id="time" style="color:#FFFFFF"></span>   
+        <span id="timeToPage3"></span></p>
+       
+    </div>
+
+    <div id="page3" class="page  ">
+        
+      
+        <div class="container_score">
+          <div class="score-text">คุณตอบถูก</div>
+          <div class="circle">
+            <div class="number" id="score">0</div>
+          </div>
+        </div> 
+         <img id="backToPage1" src="assets/G3_03Back_Button.png" style="cursor:pointer;bottom: 10%;right: 5%;position: fixed;width: 15em;" /> 
+    </div> 
+    
+</body>
+</html>
 <script> 
-   let score=0,correctMatches=0,timeLeft=10;const pages=document.querySelectorAll(".page"),scoreElement=document.getElementById("score"),timeElement=document.getElementById("time");let currentPage=0,intervalFinal,timer_game,itemMatch=0,items=[{name:"ให้ความรู้กับพนักงานด้านการวางแผนการเงินที่ครอบคลุม",value:"1",selected:!1},{name:"ขับเคลื่อนการทำเกษตรอินทรีย์ เพิ่มรายได้เกษตรกรไร้สารเคมี",value:"2",selected:!1},{name:"ควบคุมการสูบบุหรี่และแอลกอฮอล์",value:"3",selected:!1},{name:"เข้าถึงแหล่งเรียนรู้ทั้งสื่อออนไลน์ Website และ Social Media",value:"4",selected:!1},{name:"สนับสนุนความเป็นอิสระทางเพศสำหรับคน LGBTQ",value:"5",selected:!1},{name:"ทำสถานที่การให้บริการน้ำสะอาด",value:"6",selected:!1},{name:"ติด solar cell และผ่านการรับรองอาคารสีเขียว",value:"7",selected:!1},{name:"เพิ่มทักษะและความรู้ของแรงงาน เพื่อเพิ่มโอกาสในการจ้างงาน",value:"8",selected:!1},{name:"ขับเคลื่อนธุรกิจด้วยนวัตกรรม จนได้รับรางวัล Innovation Awards",value:"9",selected:!1},{name:"สรรหาและคัดเลือกพนักงานแบบไม่แบ่งแยก เชื้อชาติ เพศ ศาสนา",value:"10",selected:!1},{name:"พื้นที่สาธารณะสีเขียวที่ปลอดภัย",value:"11",selected:!1},{name:"ลดการเกิดขยะจากกระบวนการผลิต",value:"12",selected:!1},{name:"ช่วยกันลด Carbon Footprint",value:"13",selected:!1},{name:"กิจกรรมทำความสะอาดชายฝั่งทะเล",value:"14",selected:!1},{name:"สนับสนุนการเกษตรที่เพิ่มคุณภาพดิน เช่น เพาะปลูกแบบเป็นระบบ และใช้ปุ๋ยอินทรีย์",value:"15",selected:!1},{name:"ไม่ทุจริตและละเมิดสิทธิมนุษยชน",value:"16",selected:!1},{name:"สร้างพันธมิตรและเครือข่ายระหว่างภาครัฐและเอกชน",value:"17",selected:!1}];function selectRandomItem(e){let t=e.filter(e=>!e.selected);if(0===t.length)return null;let n=Math.floor(Math.random()*t.length),a=t[n];return a.selected=!0,a}function RandomQuestion(){(selectedItem=selectRandomItem(items))?(itemMatch=selectedItem.value,document.getElementById("topic_match").textContent=selectedItem.name):(clearInterval(timer_game),countdownFinal.style.display="none",showPage(2),displaySummary())}function checkAnswer(e){itemMatch==e?((sElement=document.getElementById("img"+e)).classList.add("correct"),RandomQuestion(),correctMatches=parseInt(correctMatches)+1):(modal_fail(),RandomQuestion())}function showPage(e){pages.forEach((t,n)=>{t.classList.toggle("active",n===e)}),currentPage=e}function modal_fail(){let e=document.getElementById("modal_failed");e.style.display="";let t=1,n=setInterval(()=>{(t-=1)>=0||(clearInterval(n),e.style.display="none")},200)}function resetGame(){document.getElementById("countdownNumber").textContent="3",correctMatches=0,scoreElement.textContent=0,showPage(0),items.forEach((e,t)=>{e.selected=!1;var n=document.getElementById("img"+e.value);n.className.indexOf("correct")>=0&&n.classList.remove("correct")})}function startGame(){score=0,timeLeft=20,scoreElement.textContent=score,timeElement.textContent=timeLeft,RandomQuestion(),timer_game=setInterval(()=>{if(timeLeft-=1,timeElement.textContent=timeLeft,0===timeLeft){clearInterval(timer_game);let e=document.getElementById("countdownFinal");e.style.display="";let t=3;intervalFinal=setInterval(()=>{(t-=1)>=0||(clearInterval(intervalFinal),e.style.display="none",showPage(2),displaySummary())},1e3)}},1e3)}function displaySummary(){scoreElement.textContent=correctMatches}document.getElementById("toPage2").addEventListener("click",()=>{showPage(1);let e=document.getElementById("countdownNumber"),t=document.getElementById("countdownModal");t.style.display="";let n=3,a=setInterval(()=>{(n-=1)>=0?e.textContent=n:(clearInterval(a),t.style.display="none",startGame())},1e3)}),document.getElementById("backToPage1").addEventListener("click",()=>{resetGame()});
+    let score = 0;
+    let correctMatches = 0;
+    let timeLeft = 10;
+    const pages = document.querySelectorAll('.page');
+    const scoreElement = document.getElementById("score");
+    const timeElement = document.getElementById("time");
+    let currentPage = 0;
+    let intervalFinal;
+    let timer_game;
+    let itemMatch = 0;
+    let items = [
+        { name: "ให้ความรู้กับพนักงานด้านการวางแผนการเงินที่ครอบคลุม", value: "1" ,selected : false },
+        { name: "ขับเคลื่อนการทำเกษตรอินทรีย์ เพิ่มรายได้เกษตรกรไร้สารเคมี", value: "2"  ,selected : false},
+        { name: "ควบคุมการสูบบุหรี่และแอลกอฮอล์", value: "3"  ,selected : false},
+        { name: "เข้าถึงแหล่งเรียนรู้ทั้งสื่อออนไลน์ Website และ Social Media", value: "4" ,selected : false },
+        { name: "สนับสนุนความเป็นอิสระทางเพศสำหรับคน LGBTQ", value: "5"  ,selected : false},
+        { name: "ทำสถานที่การให้บริการน้ำสะอาด", value: "6" ,selected : false },
+        { name: "ติด solar cell และผ่านการรับรองอาคารสีเขียว", value: "7"  ,selected : false},
+        { name: "เพิ่มทักษะและความรู้ของแรงงาน เพื่อเพิ่มโอกาสในการจ้างงาน", value: "8"  ,selected : false},
+        { name: "ขับเคลื่อนธุรกิจด้วยนวัตกรรม จนได้รับรางวัล Innovation Awards", value: "9"  ,selected : false},
+        { name: "สรรหาและคัดเลือกพนักงานแบบไม่แบ่งแยก เชื้อชาติ เพศ ศาสนา", value: "10"  ,selected : false},
+        { name: "พื้นที่สาธารณะสีเขียวที่ปลอดภัย", value: "11"  ,selected : false},
+        { name: "ลดการเกิดขยะจากกระบวนการผลิต", value: "12"  ,selected : false},
+        { name: "ช่วยกันลด Carbon Footprint", value: "13"  ,selected : false},
+        { name: "กิจกรรมทำความสะอาดชายฝั่งทะเล", value: "14"  ,selected : false},
+        { name: "สนับสนุนการเกษตรที่เพิ่มคุณภาพดิน เช่น เพาะปลูกแบบเป็นระบบ และใช้ปุ๋ยอินทรีย์", value: "15"  ,selected : false},
+        { name: "ไม่ทุจริตและละเมิดสิทธิมนุษยชน", value: "16"  ,selected : false},
+        { name: "สร้างพันธมิตรและเครือข่ายระหว่างภาครัฐและเอกชน", value: "17"  ,selected : false}
+    ];
+
+
+    function selectRandomItem(arr) { 
+        const unselectedItems = arr.filter(item => !item.selected); 
+        if (unselectedItems.length === 0) { 
+          return null;
+        } 
+        const randomIndex = Math.floor(Math.random() * unselectedItems.length); 
+        const randomItem = unselectedItems[randomIndex]; 
+
+        randomItem.selected = true;
+        return randomItem;
+    } 
+ 
+    function RandomQuestion()
+    {
+        selectedItem = selectRandomItem(items);
+        if(selectedItem)
+        {
+            itemMatch = selectedItem.value; 
+            document.getElementById("topic_match").textContent = selectedItem.name;
+        }
+        else
+        {
+                clearInterval(timer_game);  
+                countdownFinal.style.display = 'none'; 
+                showPage(2);
+                displaySummary();
+        }
+    }
+
+    function checkAnswer(id)
+    { 
+        if(itemMatch == id)
+        {
+            sElement = document.getElementById("img"+id); 
+            sElement.classList.add("correct"); 
+            RandomQuestion();
+            correctMatches = parseInt(correctMatches)+1; 
+        }
+        else
+        { 
+            modal_fail();
+            RandomQuestion();
+        }
+    }
+     
+
+    function showPage(pageIndex) {
+        pages.forEach((page, index) => { 
+            page.classList.toggle('active', index === pageIndex);
+        });
+        currentPage = pageIndex;
+    }
+
+    function modal_fail()
+    {
+        const modal_failed = document.getElementById("modal_failed");
+        modal_failed.style.display = ''; 
+        let countdown2 = 1; 
+        const interval2 = setInterval(() => {
+            countdown2 -= 1;
+            if (countdown2 >= 0) { 
+            } else {
+                clearInterval(interval2);
+                modal_failed.style.display = 'none';  
+            }
+        }, 200); 
+    }
+         
+    document.getElementById('toPage2').addEventListener('click', () => { 
+        showPage(1); 
+        const countdownNumber = document.getElementById("countdownNumber");
+        const countdownModal = document.getElementById("countdownModal");
+        countdownModal.style.display = ''; 
+        let countdown = 3; 
+        const interval = setInterval(() => {
+            countdown -= 1;
+            if (countdown >= 0) {
+                countdownNumber.textContent = countdown;
+            } else {
+                clearInterval(interval);
+                countdownModal.style.display = 'none'; 
+                startGame();
+            }
+        }, 1000); 
+        
+    }); 
+        document.getElementById('backToPage1').addEventListener('click', () => {
+            resetGame(); 
+        });
+ 
+        function resetGame() {
+            document.getElementById("countdownNumber").textContent = "3"; 
+            correctMatches = 0;
+            scoreElement.textContent = 0; 
+            showPage(0); 
+            items.forEach((itemData, index) => { 
+                itemData.selected = false;
+                var elementItem =  document.getElementById("img"+itemData.value); 
+                if(elementItem.className.indexOf('correct') >=0)
+                {
+                    elementItem.classList.remove('correct')
+                } 
+                 
+            });
+            
+        }
+       
+
+        function startGame() { 
+            score = 0; 
+            timeLeft = 20;
+            scoreElement.textContent = score;
+            timeElement.textContent = timeLeft; 
+            RandomQuestion() 
+            timer_game = setInterval(() => {
+                timeLeft -= 1;
+                timeElement.textContent = timeLeft; 
+                if (timeLeft === 0) {
+                    clearInterval(timer_game);  
+                    const countdownFinal = document.getElementById("countdownFinal");
+                    countdownFinal.style.display = ''; 
+                    let countdown = 3; 
+                    intervalFinal = setInterval(() => {
+                        countdown -= 1;
+                        if (countdown >= 0) { 
+                        } else {
+                            clearInterval(intervalFinal);
+                            countdownFinal.style.display = 'none'; 
+                            showPage(2);
+                            displaySummary();
+                        }
+                    }, 1000); 
+                }
+            }, 1000);
+        }
+ 
+        function displaySummary() { 
+            scoreElement.textContent = correctMatches; 
+        }
        
 
 </script>
